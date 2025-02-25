@@ -1,0 +1,2514 @@
+create a collection for students 
+with rollno as  unique index
+age as index age:1
+
+show index
+run explain with execution stats , for the conditions with indexed fields
+and for the conditions without indexed fields 
+if index is used it will g{ive u ixscan in stage of execution
+10    70
+   25
+
+sent:new Date()   //make it a ttl index  with limit of 5 min
+
+chats 
+
+hello world
+how  are you today
+I am doing good
+hope its fun to learn mongo db
+we are working in lab
+array of dates , earliest date will used for exipationi
+{msg:"shdfj",logs:[date1,date2,date3]}
+
+
+single field
+date field 
+background process: TTL monitor runs every 60 sec, 
+large deletetions
+
+modify ttl index ->drop and create
+
+
+Explain and Hint HINT: db.users.find({condtion}).hint({age:1})
+
+db.emps.insertOne({"company":{department:"HR",name:"Z Y and X", title:"Manager",address:{address:"124 abc street",city:"citname"}},_id:4,"firstName":"Alexander",lastName:"Doe",age:42,salary:651110})
+db.emps.insertOne({_id:5,firstName:"Jai",}
+
+  company: {
+    department: "Engineering",
+        name: "Dooley, Kozey and Cronin",
+        "title": "Sales Manager",
+        "address": {
+          "address": "263 Tenth Street",
+          "city": "San Francisco",
+               }
+}
+"_id": 1,
+"firstName": "Emily",
+"lastName": "Johnson",
+"age": 28,
+"salary":45634
+
+
+find({field:{$gt:value}})
+find({field:{$lt:value}})
+find({field:{$ne:value}})
+find({field:{$gte:value}})
+find({field:{$lte:value}})
+find({field:{$eq:value}})
+
+records of persons whose salary is greater than 
+60000
+
+records of persons either whose salary is greater than 60000 or age is greater than 40
+record of all the persons whose age is less than 40
+records of all the persons whole title inside company is manager
+
+hobbies:"paining"
+
+stock : {shopname:"A",qty:25}
+
+
+db.emps.insertOne({"company":{department:"HR",name:"Z Y and X", title:"Manager",address:{address:"124 abc street",city:"citname"}},_id:4,"firstName":"Alexander",lastName:"Doe",age:42,salary:651110})
+
+
+list of items whose qty is less than 25 in any of the shop
+
+capped collection :fixed size collection 
+give it size at the time of creation
+if you insert record after the size is full 
+it will delete old record 
+
+size of capped collection >0byte  < 1PB
+max 
+5000 docs
+
+with the limit of 2500B and 5 docs
+each doc will have field notification ,datee
+
+create a capped collection which stores _id , pwd
+
+and keep only 3 recent pwd in it 
+
+CONSTRAINTS
+bsonType: int 
+
+for required
+ db.createCollection("users",{ validator:{ $jsonSchema:{ bsonType:"object" ,required:"email"}}})
+for datatype
+  db.createCollection("users",{ validator:{ $jsonSchema:{ bsonType:"object" ,required:["email"],properties:{name:{bsonType:"string",description:"name must we valid string"}}}}})
+
+name must be string ,email can't be blank,
+age must be number
+db.createCollection("Admins",{validator:{$jsonSchema:{bsonType:"object", required:["email"], properties:{name:{bsonType:"string"}, age:{bsonType:"int"}}}}})
+
+name must be string ,email can't be blank,
+age must be number and age must be greater than 21
+
+ db.createCollection("Admins",{validator:{$jsonSchema:{bsonType:"object", required:["email"], properties:{name:{bsonType:"string"}, age:{bsonType:"int",minimum:21,description:"age must be a number and greter than 21"}}}}})
+schema validations
+required 
+unique 
+TTL 
+
+
+ db.orders.aggregate([ { $lookup: { from: "users", localField: "user_id", foreignField: "_id", as: "user_orders_details" } }])
+
+{
+_id:1201,
+name:'John',
+order:{'itemname':"AC",qty:23}
+}
+
+
+task 
+Author collection : _id,name
+Books Collection :_id,title,year,author_id
+--------------------------
+day 2: cmd
+
+C:\Users\RPS>mongosh
+Current Mongosh Log ID: 67bd844be222bef69b4d7941
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.9
+Using MongoDB:          8.0.4
+Using Mongosh:          2.3.9
+mongosh 2.4.0 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-02-24T15:08:38.014+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin           40.00 KiB
+config          60.00 KiB
+employees       56.00 KiB
+local           72.00 KiB
+mongotest      112.00 KiB
+mongotraining  144.00 KiB
+pizzas          80.00 KiB
+test> use mongotest
+switched to db mongotest
+mongotest> show collections
+pizzas
+Users
+mongotest> db.Users.find()
+[
+  {
+    _id: ObjectId('67bc45e4ce74ee15014d7942'),
+    Username: 'Alexander',
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc4681ce74ee15014d7943'),
+    Username: 'Alexandra',
+    age: 23,
+    mail: 'alex@gmail.com'
+  },
+  {
+    _id: ObjectId('67bc4848ce74ee15014d7944'),
+    username: 'Maria',
+    age: 25
+  },
+  {
+    _id: ObjectId('67bc4848ce74ee15014d7945'),
+    username: 'Ronald',
+    age: 21
+  },
+  {
+    _id: ObjectId('67bc4ad1ce74ee15014d7946'),
+    username: 'John Doe',
+    email: 'john.doe@example.com',
+    contactNo: '+1-555-1234',
+    city: 'New York'
+  },
+  { _id: ObjectId('67bc4ad1ce74ee15014d7947'), username: '', age: 21 },
+  {
+    _id: ObjectId('67bc4c71ce74ee15014d7948'),
+    name: 'John Doe',
+    email: 'johndoe@example.com',
+    contact_no: '+1234567890',
+    city: 'New York',
+    salary: 55000
+  },
+  {
+    _id: ObjectId('67bc4c71ce74ee15014d7949'),
+    name: 'Alice Smith',
+    email: 'alice.smith@example.com',
+    contact_no: '+1987654321',
+    city: 'Los Angeles',
+    salary: 2342323
+  },
+  {
+    _id: ObjectId('67bc4d3ace74ee15014d794a'),
+    name: 'John Doe',
+    email: 'johndoe@example.com',
+    contact_no: '+1234567890',
+    city: 'New York',
+    salary: 55000
+  },
+  {
+    _id: ObjectId('67bc4d3ace74ee15014d794b'),
+    name: 'Alice Smith',
+    email: 'alice.smith@example.com',
+    contact_no: '+1987654321',
+    city: 'Los Angeles',
+    salary: 60000
+  },
+  {
+    _id: ObjectId('67bc4d3ace74ee15014d794c'),
+    name: 'Bob Johnson',
+    email: 'bob.johnson@example.com',
+    contact_no: '+1122334455',
+    city: 'Chicago',
+    salary: 48000
+  },
+  {
+    _id: ObjectId('67bc4d3ace74ee15014d794d'),
+    name: 'Emily Davis',
+    email: 'emily.davis@example.com',
+    contact_no: '+1223344556',
+    city: 'San Francisco',
+    salary: 70000
+  },
+  {
+    _id: ObjectId('67bc4d3ace74ee15014d794e'),
+    name: 'David Wilson',
+    email: 'david.wilson@example.com',
+    contact_no: '+1444556677',
+    city: 'Miami',
+    salary: 52000
+  }
+]
+mongotest> db.Users.find({salary:48000})
+[
+  {
+    _id: ObjectId('67bc4d3ace74ee15014d794c'),
+    name: 'Bob Johnson',
+    email: 'bob.johnson@example.com',
+    contact_no: '+1122334455',
+    city: 'Chicago',
+    salary: 48000
+  }
+]
+mongotest> show dbs
+admin           40.00 KiB
+config          72.00 KiB
+employees       56.00 KiB
+local           72.00 KiB
+mongotest      112.00 KiB
+mongotraining  144.00 KiB
+pizzas          80.00 KiB
+mongotest> use mongotraining
+switched to db mongotraining
+mongotraining> show collections
+pizzas
+users
+mongotraining> db.users.find()
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.getIndexes()
+[ { v: 2, key: { _id: 1 }, name: '_id_' } ]
+mongotraining> db.users.createIndex({name:1})
+name_1
+mongotraining> db.users.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { name: 1 }, name: 'name_1' }
+]
+mongotraining> db.users.insertOne({name:'Jassi',age:23,skills:['python','.net'],email:'jassi@gmail.com'})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bd8886e222bef69b4d7942')
+}
+mongotraining> db.emps.insertOne({name:'Jassi',age:23,skills:['python','.net'],email:'jassi@gmail.com'})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bd8892e222bef69b4d7943')
+}
+mongotraining> db.users.createIndex({email:1},{unique:true})
+MongoServerError[DuplicateKey]: Index build failed: 49aad5fd-bec3-458b-992b-b7792ee81abc: Collection mongotraining.users ( 4fbbd57b-f6c4-4361-a25a-19ebb757eda6 ) :: caused by :: E11000 duplicate key error collection: mongotraining.users index: email_1 dup key: { email: null }
+mongotraining> db.emps.createIndex({email:1},{unique:true})
+email_1
+mongotraining> db.emps.insertOne({name:'ron',age:12})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bd896be222bef69b4d7944')
+}
+mongotraining> db.emps.insertOne({name:'Jasmin',age:22})
+MongoServerError: E11000 duplicate key error collection: mongotraining.emps index: email_1 dup key: { email: null }
+mongotraining> db..emps.find({name:"Jasmin"}).explain("executionStats")
+Uncaught:
+SyntaxError: Unexpected token (1:3)
+
+> 1 | db..emps.find({name:"Jasmin"}).explain("executionStats")
+    |    ^
+  2 |
+
+mongotraining> db.emps.find({name:"Jasmin"}).explain("executionStats")
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'mongotraining.emps',
+    parsedQuery: { name: { '$eq': 'Jasmin' } },
+    indexFilterSet: false,
+    planCacheShapeHash: '544F3E5C',
+    planCacheKey: 'B9363AF4',
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'COLLSCAN',
+      filter: { name: { '$eq': 'Jasmin' } },
+      direction: 'forward'
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 0,
+    executionTimeMillis: 2,
+    totalKeysExamined: 0,
+    totalDocsExamined: 2,
+    executionStages: {
+      isCached: false,
+      stage: 'COLLSCAN',
+      filter: { name: { '$eq': 'Jasmin' } },
+      nReturned: 0,
+      executionTimeMillisEstimate: 0,
+      works: 3,
+      advanced: 0,
+      needTime: 2,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      direction: 'forward',
+      docsExamined: 2
+    }
+  },
+  queryShapeHash: 'CD195AEFB9A6F368E1EDDE6076C85708D8B46B9A47268B2E0E4FEFA910703019',
+  command: { find: 'emps', filter: { name: 'Jasmin' }, '$db': 'mongotraining' },
+  serverInfo: {
+    host: 'DESKTOP-SLJTUPS',
+    port: 27017,
+    version: '8.0.4',
+    gitVersion: 'bc35ab4305d9920d9d0491c1c9ef9b72383d31f9'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+mongotraining> db.emps.find({email:null}).explain("executionStats")
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'mongotraining.emps',
+    parsedQuery: { email: { '$eq': null } },
+    indexFilterSet: false,
+    planCacheShapeHash: 'ED28E3D2',
+    planCacheKey: '1E950542',
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'FETCH',
+      filter: { email: { '$eq': null } },
+      inputStage: {
+        stage: 'IXSCAN',
+        keyPattern: { email: 1 },
+        indexName: 'email_1',
+        isMultiKey: false,
+        multiKeyPaths: { email: [] },
+        isUnique: true,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: { email: [ '[null, null]' ] }
+      }
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 1,
+    executionTimeMillis: 0,
+    totalKeysExamined: 1,
+    totalDocsExamined: 1,
+    executionStages: {
+      isCached: false,
+      stage: 'FETCH',
+      filter: { email: { '$eq': null } },
+      nReturned: 1,
+      executionTimeMillisEstimate: 0,
+      works: 2,
+      advanced: 1,
+      needTime: 0,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      docsExamined: 1,
+      alreadyHasObj: 0,
+      inputStage: {
+        stage: 'IXSCAN',
+        nReturned: 1,
+        executionTimeMillisEstimate: 0,
+        works: 2,
+        advanced: 1,
+        needTime: 0,
+        needYield: 0,
+        saveState: 0,
+        restoreState: 0,
+        isEOF: 1,
+        keyPattern: { email: 1 },
+        indexName: 'email_1',
+        isMultiKey: false,
+        multiKeyPaths: { email: [] },
+        isUnique: true,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: { email: [ '[null, null]' ] },
+        keysExamined: 1,
+        seeks: 1,
+        dupsTested: 0,
+        dupsDropped: 0
+      }
+    }
+  },
+  queryShapeHash: 'B228AAC74FFF0F84D2E4DDE836B3BED2BD928B0C168DE4C0BA30C5DEDEE1F5CB',
+  command: { find: 'emps', filter: { email: null }, '$db': 'mongotraining' },
+  serverInfo: {
+    host: 'DESKTOP-SLJTUPS',
+    port: 27017,
+    version: '8.0.4',
+    gitVersion: 'bc35ab4305d9920d9d0491c1c9ef9b72383d31f9'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+mongotraining> show collections
+emps
+pizzas
+users
+mongotraining> show dbs
+admin           40.00 KiB
+config          96.00 KiB
+employees       56.00 KiB
+local           72.00 KiB
+mongotest      112.00 KiB
+mongotraining  288.00 KiB
+pizzas          80.00 KiB
+mongotraining> use mongotest
+switched to db mongotest
+mongotest> create collection students
+Uncaught:
+SyntaxError: Missing semicolon. (1:6)
+
+> 1 | create collection students
+    |       ^
+  2 |
+
+mongotest> create.collection students
+Uncaught:
+SyntaxError: Missing semicolon. (1:17)
+
+> 1 | create.collection students
+    |                  ^
+  2 |
+
+mongotest> db.createCollection students
+Uncaught:
+SyntaxError: Missing semicolon. (1:19)
+
+> 1 | db.createCollection students
+    |                    ^
+  2 |
+
+mongotest> db.createCollection (students)
+ReferenceError: students is not defined
+mongotest> create collections students
+Uncaught:
+SyntaxError: Missing semicolon. (1:6)
+
+> 1 | create collections students
+    |       ^
+  2 |
+
+mongotest> db.createCollection({}, {students})
+ReferenceError: students is not defined
+mongotest> db.createCollection("students")
+{ ok: 1 }
+mongotest> db.students.createIndex({rollno:1},{uniqe:true})
+rollno_1
+mongotest> db.students.createIndex({age:1})
+age_1
+mongotest> db,students.getIndexes()
+ReferenceError: students is not defined
+mongotest> db.students.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { rollno: 1 }, name: 'rollno_1' },
+  { v: 2, key: { age: 1 }, name: 'age_1' }
+]
+mongotest> db.students.getIndexes().explain("executionStats")
+TypeError: db.students.getIndexes().explain is not a function
+mongotest> db.students.find().explain("executionStats")
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'mongotest.students',
+    parsedQuery: {},
+    indexFilterSet: false,
+    planCacheShapeHash: '8F2383EE',
+    planCacheKey: '7DF350EE',
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: { isCached: false, stage: 'COLLSCAN', direction: 'forward' },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 0,
+    executionTimeMillis: 0,
+    totalKeysExamined: 0,
+    totalDocsExamined: 0,
+    executionStages: {
+      isCached: false,
+      stage: 'COLLSCAN',
+      nReturned: 0,
+      executionTimeMillisEstimate: 0,
+      works: 1,
+      advanced: 0,
+      needTime: 0,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      direction: 'forward',
+      docsExamined: 0
+    }
+  },
+  queryShapeHash: 'E46BFA314D8C48AC15018B1EEC8542C9E14FA5DACCF8F25DA77108E420CFE898',
+  command: { find: 'students', filter: {}, '$db': 'mongotest' },
+  serverInfo: {
+    host: 'DESKTOP-SLJTUPS',
+    port: 27017,
+    version: '8.0.4',
+    gitVersion: 'bc35ab4305d9920d9d0491c1c9ef9b72383d31f9'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+mongotest> db.students.find({"rollno"}).explain("executionStats")
+Uncaught:
+SyntaxError: Unexpected token (1:26)
+
+> 1 | db.students.find({"rollno"}).explain("executionStats")
+    |                           ^
+  2 |
+
+mongotest> db.students.find({rollno:1}).explain("executionStats")
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'mongotest.students',
+    parsedQuery: { rollno: { '$eq': 1 } },
+    indexFilterSet: false,
+    planCacheShapeHash: '54C25955',
+    planCacheKey: '9C5A50EF',
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'FETCH',
+      inputStage: {
+        stage: 'IXSCAN',
+        keyPattern: { rollno: 1 },
+        indexName: 'rollno_1',
+        isMultiKey: false,
+        multiKeyPaths: { rollno: [] },
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: { rollno: [ '[1, 1]' ] }
+      }
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 0,
+    executionTimeMillis: 0,
+    totalKeysExamined: 0,
+    totalDocsExamined: 0,
+    executionStages: {
+      isCached: false,
+      stage: 'FETCH',
+      nReturned: 0,
+      executionTimeMillisEstimate: 0,
+      works: 1,
+      advanced: 0,
+      needTime: 0,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      docsExamined: 0,
+      alreadyHasObj: 0,
+      inputStage: {
+        stage: 'IXSCAN',
+        nReturned: 0,
+        executionTimeMillisEstimate: 0,
+        works: 1,
+        advanced: 0,
+        needTime: 0,
+        needYield: 0,
+        saveState: 0,
+        restoreState: 0,
+        isEOF: 1,
+        keyPattern: { rollno: 1 },
+        indexName: 'rollno_1',
+        isMultiKey: false,
+        multiKeyPaths: { rollno: [] },
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: { rollno: [ '[1, 1]' ] },
+        keysExamined: 0,
+        seeks: 1,
+        dupsTested: 0,
+        dupsDropped: 0
+      }
+    }
+  },
+  queryShapeHash: '8225885541AC3F04A1AFADD43FF3DC22338933206576885BFDC9577F08EFE238',
+  command: { find: 'students', filter: { rollno: 1 }, '$db': 'mongotest' },
+  serverInfo: {
+    host: 'DESKTOP-SLJTUPS',
+    port: 27017,
+    version: '8.0.4',
+    gitVersion: 'bc35ab4305d9920d9d0491c1c9ef9b72383d31f9'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+mongotest> db.chats.insertOne({message:"hello world",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bd9dfae222bef69b4d7946')
+}
+mongotest> db.chats.createIndex({createdAt:1}{expireAfterSeconds:350})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:34)
+
+> 1 | db.chats.createIndex({createdAt:1}{expireAfterSeconds:350})
+    |                                   ^
+  2 |
+
+mongotest> db.chats.createIndex({createdAt:1},{expireAfterSeconds:350})
+createdAt_1
+mongotest> db.chats.insertOne({message:"how R U today?",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bd9e84e222bef69b4d7947')
+}
+mongotest> db.chats.insertOne({message:"I am doing good",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bd9e97e222bef69b4d7948')
+}
+mongotest> db.chats.insertOne({message:"hope its fun to learn mongoDB",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bd9eb5e222bef69b4d7949')
+}
+mongotest> db.chats.insertOne({message:"Yes it is,we are working in Lab",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bd9ed3e222bef69b4d794a')
+}
+mongotest> db.chats.find()
+[
+  {
+    _id: ObjectId('67bd9dfae222bef69b4d7946'),
+    message: 'hello world',
+    createdAt: ISODate('2025-02-25T10:39:54.451Z')
+  },
+  {
+    _id: ObjectId('67bd9e84e222bef69b4d7947'),
+    message: 'how R U today?',
+    createdAt: ISODate('2025-02-25T10:42:12.102Z')
+  },
+  {
+    _id: ObjectId('67bd9e97e222bef69b4d7948'),
+    message: 'I am doing good',
+    createdAt: ISODate('2025-02-25T10:42:31.199Z')
+  },
+  {
+    _id: ObjectId('67bd9eb5e222bef69b4d7949'),
+    message: 'hope its fun to learn mongoDB',
+    createdAt: ISODate('2025-02-25T10:43:01.424Z')
+  },
+  {
+    _id: ObjectId('67bd9ed3e222bef69b4d794a'),
+    message: 'Yes it is,we are working in Lab',
+    createdAt: ISODate('2025-02-25T10:43:31.777Z')
+  }
+]
+mongotest> db.chats.createIndex({createdAt:1},{expireAfterSeconds:350})
+mongotest> db.chats.find({createdAt:-1})
+
+mongotest> db.chats.find({}, {createdAt:-1})
+[
+  {
+    _id: ObjectId('67bd9dfae222bef69b4d7946'),
+    createdAt: ISODate('2025-02-25T10:39:54.451Z')
+  },
+  {
+    _id: ObjectId('67bd9e84e222bef69b4d7947'),
+    createdAt: ISODate('2025-02-25T10:42:12.102Z')
+  },
+  {
+    _id: ObjectId('67bd9e97e222bef69b4d7948'),
+    createdAt: ISODate('2025-02-25T10:42:31.199Z')
+  },
+  {
+    _id: ObjectId('67bd9eb5e222bef69b4d7949'),
+    createdAt: ISODate('2025-02-25T10:43:01.424Z')
+  },
+  {
+    _id: ObjectId('67bd9ed3e222bef69b4d794a'),
+    createdAt: ISODate('2025-02-25T10:43:31.777Z')
+  }
+]
+mongotest> db.chats.find({"message"}, {createdAt:-1})
+Uncaught:
+SyntaxError: Unexpected token (1:24)
+
+> 1 | db.chats.find({"message"}, {createdAt:-1})
+    |                         ^
+  2 |
+
+mongotest> db.chats.find({message:1}, {createdAt:-1})
+
+mongotest> db.chats.find({message:""}, {createdAt:-1})
+
+mongotest> db.chats.find({message:""}, {createdAt:-1})
+mongotest> db.chats.find()
+[
+  {
+    _id: ObjectId('67bd9eb5e222bef69b4d7949'),
+    message: 'hope its fun to learn mongoDB',
+    createdAt: ISODate('2025-02-25T10:43:01.424Z')
+  },
+  {
+    _id: ObjectId('67bd9ed3e222bef69b4d794a'),
+    message: 'Yes it is,we are working in Lab',
+    createdAt: ISODate('2025-02-25T10:43:31.777Z')
+  }
+]
+mongotest> db.chats.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  {
+    v: 2,
+    key: { createdAt: 1 },
+    name: 'createdAt_1',
+    expireAfterSeconds: 350
+  }
+]
+mongotest> db.chats.dropIndex(createdAt_1)
+ReferenceError: createdAt_1 is not defined
+mongotest> db.chats.dropIndex("createdAt_1")
+{ nIndexesWas: 2, ok: 1 }
+mongotest> db.chats.getIndexes()
+[ { v: 2, key: { _id: 1 }, name: '_id_' } ]
+mongotest> db.chats.insertOne({message:"hello world",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bda0aee222bef69b4d794b')
+}
+mongotest> db.chats.createIndex({createdAt:1},{expireAfterSeconds:350})
+createdAt_1
+mongotest> db.chats.insertOne({message:"how R U today?",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bda0c8e222bef69b4d794c')
+}
+mongotest> db.chats.insertOne({message:"I am doing good",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bda0d0e222bef69b4d794d')
+}
+mongotest> db.chats.insertOne({message:"hope its fun to learn mongoDB",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bda0d8e222bef69b4d794e')
+}
+mongotest> db.chats.insertOne({message:"Yes it is,we are working in Lab",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bda0e0e222bef69b4d794f')
+}
+mongotest> db.chats.find()
+[
+  {
+    _id: ObjectId('67bda0aee222bef69b4d794b'),
+    message: 'hello world',
+    createdAt: ISODate('2025-02-25T10:51:26.652Z')
+  },
+  {
+    _id: ObjectId('67bda0c8e222bef69b4d794c'),
+    message: 'how R U today?',
+    createdAt: ISODate('2025-02-25T10:51:52.058Z')
+  },
+  {
+    _id: ObjectId('67bda0d0e222bef69b4d794d'),
+    message: 'I am doing good',
+    createdAt: ISODate('2025-02-25T10:52:00.018Z')
+  },
+  {
+    _id: ObjectId('67bda0d8e222bef69b4d794e'),
+    message: 'hope its fun to learn mongoDB',
+    createdAt: ISODate('2025-02-25T10:52:08.948Z')
+  },
+  {
+    _id: ObjectId('67bda0e0e222bef69b4d794f'),
+    message: 'Yes it is,we are working in Lab',
+    createdAt: ISODate('2025-02-25T10:52:16.304Z')
+  }
+]
+mongotest> db.chats.find().sort({createdAt:-1})
+[
+  {
+    _id: ObjectId('67bda0e0e222bef69b4d794f'),
+    message: 'Yes it is,we are working in Lab',
+    createdAt: ISODate('2025-02-25T10:52:16.304Z')
+  },
+  {
+    _id: ObjectId('67bda0d8e222bef69b4d794e'),
+    message: 'hope its fun to learn mongoDB',
+    createdAt: ISODate('2025-02-25T10:52:08.948Z')
+  },
+  {
+    _id: ObjectId('67bda0d0e222bef69b4d794d'),
+    message: 'I am doing good',
+    createdAt: ISODate('2025-02-25T10:52:00.018Z')
+  },
+  {
+    _id: ObjectId('67bda0c8e222bef69b4d794c'),
+    message: 'how R U today?',
+    createdAt: ISODate('2025-02-25T10:51:52.058Z')
+  },
+  {
+    _id: ObjectId('67bda0aee222bef69b4d794b'),
+    message: 'hello world',
+    createdAt: ISODate('2025-02-25T10:51:26.652Z')
+  }
+]
+mongotest> db.chats.find({message:{$regex:"\\doing∟∟\\",opi"ns:
+mongotest> db.chats.find({message:{$regex:"\\bdoing\\b", $options:"i"}})
+
+mongotest> db.chats.find().sort({createdAt:-1})
+
+mongotest> db.chats.insertOne({message:"I am doing good",createdAt: new Date()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bda29ce222bef69b4d7950')
+}
+mongotest> db.chats.find({message:{$regex:"\\bdoing\\b", $options:"i"}})
+[
+  {
+    _id: ObjectId('67bda29ce222bef69b4d7950'),
+    message: 'I am doing good',
+    createdAt: ISODate('2025-02-25T10:59:40.416Z')
+  }
+]
+mongotest> db.chats.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  {
+    v: 2,
+    key: { createdAt: 1 },
+    name: 'createdAt_1',
+    expireAfterSeconds: 350
+  }
+]
+mongotest> db.empls.insertOne({company": {
+Uncaught:
+SyntaxError: Unterminated string constant. (1:27)
+
+> 1 | db.empls.insertOne({company": {
+    |                            ^
+  2 |
+
+mongotest>         "department": "Engineering",
+Uncaught:
+SyntaxError: Missing semicolon. (1:20)
+
+> 1 |         "department": "Engineering",
+    |                     ^
+  2 |
+
+mongotest>         "name": "Dooley, Kozey and Cronin",
+Uncaught:
+SyntaxError: Missing semicolon. (1:14)
+
+> 1 |         "name": "Dooley, Kozey and Cronin",
+    |               ^
+  2 |
+
+mongotest>         "title": "Sales Manager",
+Uncaught:
+SyntaxError: Missing semicolon. (1:15)
+
+> 1 |         "title": "Sales Manager",
+    |                ^
+  2 |
+
+mongotest>         "address": {
+Uncaught:
+SyntaxError: Missing semicolon. (1:17)
+
+> 1 |         "address": {
+    |                  ^
+  2 |
+
+mongotest>           "address": "263 Tenth Street",
+Uncaught:
+SyntaxError: Missing semicolon. (1:19)
+
+> 1 |           "address": "263 Tenth Street",
+    |                    ^
+  2 |
+
+mongotest>           "city": "San Francisco",
+Uncaught:
+SyntaxError: Missing semicolon. (1:16)
+
+> 1 |           "city": "San Francisco",
+    |                 ^
+  2 |
+
+mongotest>
+
+mongotest> db.empls.insertOne({mongotest> db.empls.insertOne({mongotest> db.empls.insertOne({mongotest> db.empls.insertOne({mongotest> db.empls.insertOne({mongotest> dbmongotmongotest> db.empls.insertOne({"Company":{department:"engineering","name":"Dooley, Kozey and Cronin"},title:{"Sales Manaer"}, address:{adress:"263 Tenth Street",city:"San Francisco"}})
+Uncaught:
+SyntaxError: Unexpected token (1:112)
+
+> 1 | db.empls.insertOne({"Company":{department:"engineering","name":"Dooley, Kozey and Cronin"},title:{"Sales Manaer"}, address:{adress:"263 Tenth Street",city:"San Francisco"}})
+    |                                                                                                                 ^
+  2 |
+
+mongotest> db.empls.insertOne({"Company":{department:"engineering","name":"Dooley, Kozey and Cronin"},title:{"Sales Manaer"}, address:{adress:"263 Tenth Street",city:"San Francisco"}})
+Uncaught:
+SyntaxError: Unexpected token (1:112)
+
+> 1 | db.empls.insertOne({"Company":{department:"engineering","name":"Dooley, Kozey and Cronin"},title:{"Sales Manaer"}, address:{adress:"263 Tenth Street",city:"San Francisco"}})
+    |                                                                                                                 ^
+  2 |
+
+mongotest> db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:182)
+
+> 1 | db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"}})
+    |                                                                                                                                                                                       ^
+  2 |
+
+mongotest> db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"}}"_id":1{"firstName":"Emily", "lastName":"Johnson"},{"age":28},{"salary":45634}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:182)
+
+> 1 | db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"}}"_id":1{"firstName":"Emily", "lastName":"Johnson"},{"age":28},{"salary":45634}})
+    |                                                                                                                                                                                       ^
+  2 |
+
+mongotest> db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"},"_id":1{"firstName":"Emily", "lastName":"Johnson"},{"age":28},{"salary":45634}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:189)
+
+> 1 | db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"},"_id":1{"firstName":"Emily", "lastName":"Johnson"},{"age":28},{"salary":45634}})
+    |                                                                                                                                                                                              ^
+  2 |
+
+mongotest> db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"},_id:1{"firstName":"Emily", "lastName":"Johnson"},{"age":28},{"salary":45634}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:187)
+
+> 1 | db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"},_id:1{"firstName":"Emily", "lastName":"Johnson"},{"age":28},{"salary":45634}})
+    |                                                                                                                                                                                            ^
+  2 |
+
+mongotest> db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"}},_id:1,"firstName":"Emily", "lastName":"Johnson","age":28,"salary":45634})
+{ acknowledged: true, insertedId: 1 }
+mongotest> db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"}},_id:1,"firstName":"maria", "lastName":"Johnson","age":29,"salary":65634})
+MongoServerError: E11000 duplicate key error collection: mongotest.emps index: _id_ dup key: { _id: 1 }
+mongotest> db.emps.insertOne({"company":{ "department":"Engineering","name":"Dooley, Kozey and Cronin","title":"Sales Manager", "address":{"address":"263 Tehth Street", "city":"San Francisco"}},_id:2,"firstName":"maria", "lastName":"Johnson","age":29,"salary":65634})
+{ acknowledged: true, insertedId: 2 }
+mongotest> db.emps.insertOne({"company":{department:"Engineering",name:"X Y and Z", title:"IT MAnager",address:{address:"123 abc street,city:"citname"}},_id:3,"firstName":"Alex",lastName:"demo",age:32,salary:652314})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:131)
+
+> 1 | db.emps.insertOne({"company":{department:"Engineering",name:"X Y and Z", title:"IT MAnager",address:{address:"123 abc street,city:"citname"}},_id:3,"firstName":"Alex",lastName:"demo",age:32,salary:652314})
+    |                                                                                                                                    ^
+  2 |
+
+mongotest> db.emps.insertOne({"company":{department:"Engineering",name:"X Y and Z", title:"IT MAnager",address:{address:"123 abc street",city:"citname"}},_id:3,"firstName":"Alex",lastName:"demo",age:32,salary:652314})
+{ acknowledged: true, insertedId: 3 }
+mongotest> db.emps.find()
+[
+  {
+    _id: 1,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'Emily',
+    lastName: 'Johnson',
+    age: 28,
+    salary: 45634
+  },
+  {
+    _id: 2,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'maria',
+    lastName: 'Johnson',
+    age: 29,
+    salary: 65634
+  },
+  {
+    _id: 3,
+    company: {
+      department: 'Engineering',
+      name: 'X Y and Z',
+      title: 'IT MAnager',
+      address: { address: '123 abc street', city: 'citname' }
+    },
+    firstName: 'Alex',
+    lastName: 'demo',
+    age: 32,
+    salary: 652314
+  }
+]
+mongotest> db.emps.insertOne({"company":{department:"HR",name:"Z Y and X", title:"Manager",address:{address:"124 abc street",city:"citname"}},_id:4,"firstName":"Alexander",lastName:"Doe",age:42,salary:651110})
+{ acknowledged: true, insertedId: 4 }
+mongotest> db.emps.insertOne({"company":{department:"HR",name:"Z Y and X", title:"Manager",address:{address:"124 abc street",city:"city2"}},_id:4,"firstName":"Alexa",lastName:"Dane",age:24,salary:30277737})
+MongoServerError: E11000 duplicate key error collection: mongotest.emps index: _id_ dup key: { _id: 4 }
+mongotest> db.emps.insertOne({"company":{department:"HR",name:"Z Y and X", title:"Manager",address:{address:"124 abc street",city:"city2"}},_id:5,"firstName":"Alexa",lastName:"Dane",age:24,salary:30277737})
+{ acknowledged: true, insertedId: 5 }
+mongotest> db.emps.find({company:{department:"HR"}})
+
+mongotest> db.emps.find({"company.department":"HR"}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:40)
+
+> 1 | db.emps.find({"company.department":"HR"}})
+    |                                         ^
+  2 |
+
+mongotest> db.emps.find({"company.department":"HR"})
+[
+  {
+    _id: 4,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'Alexander',
+    lastName: 'Doe',
+    age: 42,
+    salary: 651110
+  },
+  {
+    _id: 5,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'city2' }
+    },
+    firstName: 'Alexa',
+    lastName: 'Dane',
+    age: 24,
+    salary: 30277737
+  }
+]
+mongotest> db.emps.find({"company.address.city":"city2"})
+[
+  {
+    _id: 5,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'city2' }
+    },
+    firstName: 'Alexa',
+    lastName: 'Dane',
+    age: 24,
+    salary: 30277737
+  }
+]
+mongotest> db.emps.find({$or:[{"company.address.city":"city2"},{age:42}]})
+[
+  {
+    _id: 4,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'Alexander',
+    lastName: 'Doe',
+    age: 42,
+    salary: 651110
+  },
+  {
+    _id: 5,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'city2' }
+    },
+    firstName: 'Alexa',
+    lastName: 'Dane',
+    age: 24,
+    salary: 30277737
+  }
+]
+mongotest> db.emps.find({age:{$gt:24}})
+[
+  {
+    _id: 1,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'Emily',
+    lastName: 'Johnson',
+    age: 28,
+    salary: 45634
+  },
+  {
+    _id: 2,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'maria',
+    lastName: 'Johnson',
+    age: 29,
+    salary: 65634
+  },
+  {
+    _id: 3,
+    company: {
+      department: 'Engineering',
+      name: 'X Y and Z',
+      title: 'IT MAnager',
+      address: { address: '123 abc street', city: 'citname' }
+    },
+    firstName: 'Alex',
+    lastName: 'demo',
+    age: 32,
+    salary: 652314
+  },
+  {
+    _id: 4,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'Alexander',
+    lastName: 'Doe',
+    age: 42,
+    salary: 651110
+  }
+]
+mongotest> db.emps.find({age:{$lt:24}})
+
+mongotest> db.emps.find({age:{$lt:25}})
+[
+  {
+    _id: 5,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'city2' }
+    },
+    firstName: 'Alexa',
+    lastName: 'Dane',
+    age: 24,
+    salary: 30277737
+  }
+]
+mongotest> db.emps.find({age:{$ne:42}})
+[
+  {
+    _id: 1,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'Emily',
+    lastName: 'Johnson',
+    age: 28,
+    salary: 45634
+  },
+  {
+    _id: 2,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'maria',
+    lastName: 'Johnson',
+    age: 29,
+    salary: 65634
+  },
+  {
+    _id: 3,
+    company: {
+      department: 'Engineering',
+      name: 'X Y and Z',
+      title: 'IT MAnager',
+      address: { address: '123 abc street', city: 'citname' }
+    },
+    firstName: 'Alex',
+    lastName: 'demo',
+    age: 32,
+    salary: 652314
+  },
+  {
+    _id: 5,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'city2' }
+    },
+    firstName: 'Alexa',
+    lastName: 'Dane',
+    age: 24,
+    salary: 30277737
+  }
+]
+mongotest> db.emps.find({age:{$eq:42}})
+[
+  {
+    _id: 4,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'Alexander',
+    lastName: 'Doe',
+    age: 42,
+    salary: 651110
+  }
+]
+mongotest> db.emps.find({age:42}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:21)
+
+> 1 | db.emps.find({age:42}})
+    |                      ^
+  2 |
+
+mongotest> db.emps.find({age:42})
+[
+  {
+    _id: 4,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'Alexander',
+    lastName: 'Doe',
+    age: 42,
+    salary: 651110
+  }
+]
+mongotest> db.emps.find({firstname:{$gt:2}})
+
+mongotest> db.emps.find({firstname:{$gt:5}})
+
+mongotest> db.emps.find({firstname:{$gt:90}})
+
+mongotest> db.emps.find({firstName:{$gt:90}})
+
+mongotest> db.emps.find({firstName:{$gt:9}})
+
+mongotest> db.emps.find({firstName:{$gt:4}})
+
+mongotest> db.emps.insertOne({"company":{department:"HR",name:"Z Y and X", title:"Manager",address:{address:"124 abc street",city:"citname"}},_id:4,"firstName":"jason",lastName:"Doe",age:2,salary:651110})
+MongoServerError: E11000 duplicate key error collection: mongotest.emps index: _id_ dup key: { _id: 4 }
+mongotest> db.emps.insertOne({"company":{department:"HR",name:"Z Y and X", title:"Manager",address:{address:"124 abc street",city:"citname"}},_id:6,"firstName":"jason",lastName:"Doe",age:2,salary:651110})
+{ acknowledged: true, insertedId: 6 }
+mongotest> db.emps.find({age:{$and:[{$gt:40},{$lt:50}]}})
+MongoServerError[BadValue]: unknown operator: $and
+mongotest> db.emps.find({$and:[{age:{$gt:40}},{age:{$lt:50}}]}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:51)
+
+> 1 | db.emps.find({$and:[{age:{$gt:40}},{age:{$lt:50}}]}})
+    |                                                    ^
+  2 |
+
+mongotest> db.emps.find({$and:[{age:{$gt:40}},{age:{$lt:50}}]})
+[
+  {
+    _id: 4,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'Alexander',
+    lastName: 'Doe',
+    age: 42,
+    salary: 651110
+  }
+]
+mongotest> db.emps.find({$or:[{age:{$gt:40}},{age:{$lt:50}}]})
+[
+  {
+    _id: 1,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'Emily',
+    lastName: 'Johnson',
+    age: 28,
+    salary: 45634
+  },
+  {
+    _id: 2,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'maria',
+    lastName: 'Johnson',
+    age: 29,
+    salary: 65634
+  },
+  {
+    _id: 3,
+    company: {
+      department: 'Engineering',
+      name: 'X Y and Z',
+      title: 'IT MAnager',
+      address: { address: '123 abc street', city: 'citname' }
+    },
+    firstName: 'Alex',
+    lastName: 'demo',
+    age: 32,
+    salary: 652314
+  },
+  {
+    _id: 4,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'Alexander',
+    lastName: 'Doe',
+    age: 42,
+    salary: 651110
+  },
+  {
+    _id: 5,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'city2' }
+    },
+    firstName: 'Alexa',
+    lastName: 'Dane',
+    age: 24,
+    salary: 30277737
+  },
+  {
+    _id: 6,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'jason',
+    lastName: 'Doe',
+    age: 2,
+    salary: 651110
+  }
+]
+mongotest> db.emps.find({age:{$gt:40}},{age:{$lt:50}})
+MongoServerError[Location16020]: Expression $lt takes exactly 2 arguments. 1 were passed in.
+mongotest> db.emps.find({{age:{$gt:40}},{age:{$lt:50}}})
+Uncaught:
+SyntaxError: Unexpected token (1:14)
+
+> 1 | db.emps.find({{age:{$gt:40}},{age:{$lt:50}}})
+    |               ^
+  2 |
+
+mongotest> db.emps.find({age:{$gt:40}},{age:{$lt:50}})
+MongoServerError[Location16020]: Expression $lt takes exactly 2 arguments. 1 were passed in.
+mongotest> db.emps.find({age:{$gt:40,$lt:50}})
+[
+  {
+    _id: 4,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'Alexander',
+    lastName: 'Doe',
+    age: 42,
+    salary: 651110
+  }
+]
+mongotest> db.emps.find({$or:{salary:{$gt:60000},{age:{$gt:40}}}})
+Uncaught:
+SyntaxError: Unexpected token (1:38)
+
+> 1 | db.emps.find({$or:{salary:{$gt:60000},{age:{$gt:40}}}})
+    |                                       ^
+  2 |
+
+mongotest> db.emps.find({$or:[{salary:{$gt:60000},{age:{$gt:40}}]}})
+Uncaught:
+SyntaxError: Unexpected token (1:39)
+
+> 1 | db.emps.find({$or:[{salary:{$gt:60000},{age:{$gt:40}}]}})
+    |                                        ^
+  2 |
+
+mongotest> db.emps.find({$or:[{salary:{$gt:60000},{age:{$gt:40}}]})
+Uncaught:
+SyntaxError: Unexpected token (1:39)
+
+> 1 | db.emps.find({$or:[{salary:{$gt:60000},{age:{$gt:40}}]})
+    |                                        ^
+  2 |
+
+mongotest> db.emps.find({$or:[{salary:{$gt:60000}},{age:{$gt:40}}]})
+[
+  {
+    _id: 2,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'maria',
+    lastName: 'Johnson',
+    age: 29,
+    salary: 65634
+  },
+  {
+    _id: 3,
+    company: {
+      department: 'Engineering',
+      name: 'X Y and Z',
+      title: 'IT MAnager',
+      address: { address: '123 abc street', city: 'citname' }
+    },
+    firstName: 'Alex',
+    lastName: 'demo',
+    age: 32,
+    salary: 652314
+  },
+  {
+    _id: 4,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'Alexander',
+    lastName: 'Doe',
+    age: 42,
+    salary: 651110
+  },
+  {
+    _id: 5,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'city2' }
+    },
+    firstName: 'Alexa',
+    lastName: 'Dane',
+    age: 24,
+    salary: 30277737
+  },
+  {
+    _id: 6,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'jason',
+    lastName: 'Doe',
+    age: 2,
+    salary: 651110
+  }
+]
+mongotest> db.emps.find({$or:[{salary:{$gt:60000}},{age:{$gt:40}}]})
+mongotest> db.emps.find({firstName:{age:{$lt:40}}})
+
+mongotest> db.emps.find({age:{$lt:40}})
+[
+  {
+    _id: 1,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'Emily',
+    lastName: 'Johnson',
+    age: 28,
+    salary: 45634
+  },
+  {
+    _id: 2,
+    company: {
+      department: 'Engineering',
+      name: 'Dooley, Kozey and Cronin',
+      title: 'Sales Manager',
+      address: { address: '263 Tehth Street', city: 'San Francisco' }
+    },
+    firstName: 'maria',
+    lastName: 'Johnson',
+    age: 29,
+    salary: 65634
+  },
+  {
+    _id: 3,
+    company: {
+      department: 'Engineering',
+      name: 'X Y and Z',
+      title: 'IT MAnager',
+      address: { address: '123 abc street', city: 'citname' }
+    },
+    firstName: 'Alex',
+    lastName: 'demo',
+    age: 32,
+    salary: 652314
+  },
+  {
+    _id: 5,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'city2' }
+    },
+    firstName: 'Alexa',
+    lastName: 'Dane',
+    age: 24,
+    salary: 30277737
+  },
+  {
+    _id: 6,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'jason',
+    lastName: 'Doe',
+    age: 2,
+    salary: 651110
+  }
+]
+mongotest> db.emps.find({age:{$lt:40}})
+mongotest> db.emps.find("company.title":"Manager")
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:28)
+
+> 1 | db.emps.find("company.title":"Manager")
+    |                             ^
+  2 |
+
+mongotest> db.emps.find(company.title:"Manager")
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:26)
+
+> 1 | db.emps.find(company.title:"Manager")
+    |                           ^
+  2 |
+
+mongotest> db.emps.find({"company.title":"Manager"})
+[
+  {
+    _id: 4,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'Alexander',
+    lastName: 'Doe',
+    age: 42,
+    salary: 651110
+  },
+  {
+    _id: 5,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'city2' }
+    },
+    firstName: 'Alexa',
+    lastName: 'Dane',
+    age: 24,
+    salary: 30277737
+  },
+  {
+    _id: 6,
+    company: {
+      department: 'HR',
+      name: 'Z Y and X',
+      title: 'Manager',
+      address: { address: '124 abc street', city: 'citname' }
+    },
+    firstName: 'jason',
+    lastName: 'Doe',
+    age: 2,
+    salary: 651110
+  }
+]
+mongotest> db.createCollection("Admins",{validator:{$jsonSchema:{bsonType:"string", required:["email"], properties:{name:{bsonType:"string", age:{bsonType:"integer"}}}}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:158)
+
+> 1 | db.createCollection("Admins",{validator:{$jsonSchema:{bsonType:"string", required:["email"], properties:{name:{bsonType:"string", age:{bsonType:"integer"}}}}})
+    |                                                                                                                                                               ^
+  2 |
+
+mongotest> db.createCollection("Admins",{validator:{$jsonSchema:{bsonType:"string", required:["email"], properties:{name:{bsonType:"string", age:{bsonType:"integer"}}}}}})
+MongoServerError[FailedToParse]: Unknown $jsonSchema keyword: age
+mongotest> db.createCollection("Admins",{validator:{$jsonSchema:{bsonType:"string", required:["email"], properties:{name:{bsonType:"string"}, age:{bsonType:"integer"}}}}})
+MongoServerError[FailedToParse]: $jsonSchema type 'integer' is not currently supported.
+mongotest> db.createCollection("Admins",{validator:{$jsonSchema:{bsonType:"string", required:["email"], properties:{name:{bsonType:"string"}, age:{bsonType:"int"}}}}})
+{ ok: 1 }
+mongotest> db.Admins.insertOne({name:"Andras",age:35, email:"nagya@gmail.com"})
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('67bdd8e9e222bef69b4d7951'),
+  details: {
+    operatorName: '$jsonSchema',
+    specifiedAs: {
+      '$jsonSchema': {
+        bsonType: 'string',
+        required: [ 'email' ],
+        properties: { name: { bsonType: 'string' }, age: { bsonType: 'int' } }
+      }
+    },
+    reason: 'expression always evaluates to false'
+  }
+}
+mongotest> db.Admins.insertOne({name:"Andras",age:35, email:"nagya@gmail.com"})
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('67bdd91ce222bef69b4d7952'),
+  details: {
+    operatorName: '$jsonSchema',
+    specifiedAs: {
+      '$jsonSchema': {
+        bsonType: 'string',
+        required: [ 'email' ],
+        properties: { name: { bsonType: 'string' }, age: { bsonType: 'int' } }
+      }
+    },
+    reason: 'expression always evaluates to false'
+  }
+}
+mongotest> db.Admins.insertOne({name:"Andras",age:35,email:"nagya@gmail.com"})
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('67bdd92be222bef69b4d7953'),
+  details: {
+    operatorName: '$jsonSchema',
+    specifiedAs: {
+      '$jsonSchema': {
+        bsonType: 'string',
+        required: [ 'email' ],
+        properties: { name: { bsonType: 'string' }, age: { bsonType: 'int' } }
+      }
+    },
+    reason: 'expression always evaluates to false'
+  }
+}
+mongotest> db.Admins.insertOne({name:"Andras",age:35,email:"nagya@gmail.com"})
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('67bdd963e222bef69b4d7954'),
+  details: {
+    operatorName: '$jsonSchema',
+    specifiedAs: {
+      '$jsonSchema': {
+        bsonType: 'string',
+        required: [ 'email' ],
+        properties: { name: { bsonType: 'string' }, age: { bsonType: 'int' } }
+      }
+    },
+    reason: 'expression always evaluates to false'
+  }
+}
+mongotest> db.createCollection("Admins",{validator:{$jsonSchema:{bsonType:"object", required:["email"], properties:{name:{bsonType:"string"}, age:{bsonType:"int"}}}}})
+MongoServerError[NamespaceExists]: namespace mongotest.Admins already exists, but with different options: { uuid: UUID("c9da5e34-50df-40d7-9cfc-6553dbfddeb9"), validator: { $jsonSchema: { bsonType: "string", required: [ "email" ], properties: { name: { bsonType: "string" }, age: { bsonType: "int" } } } } }
+mongotest> db.Admins.drop()
+true
+mongotest> db.createCollection("Admins",{validator:{$jsonSchema:{bsonType:"object", required:["email"], properties:{name:{bsonType:"string"}, age:{bsonType:"int"}}}}})
+{ ok: 1 }
+mongotest> db.Admins.insertOne({name:"Andras",age:35,email:"nagya@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bdd9d7e222bef69b4d7955')
+}
+mongotest> db.Admins.insertOne({name:"Andras",age:35})
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('67bdda13e222bef69b4d7956'),
+  details: {
+    operatorName: '$jsonSchema',
+    schemaRulesNotSatisfied: [
+      {
+        operatorName: 'required',
+        specifiedAs: { required: [ 'email' ] },
+        missingProperties: [ 'email' ]
+      }
+    ]
+  }
+}
+mongotest> db.Admins.insertOne({name:"Andras",age:tizenhrom,email:"nagya@gmail.com"})
+ReferenceError: tizenhrom is not defined
+mongotest> db.Admins.insertOne({name:"Andras",age:"tizenhrom",email:"nagya@gmail.com"})
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('67bdda2be222bef69b4d7957'),
+  details: {
+    operatorName: '$jsonSchema',
+    schemaRulesNotSatisfied: [
+      {
+        operatorName: 'properties',
+        propertiesNotSatisfied: [
+          {
+            propertyName: 'age',
+            details: [
+              {
+                operatorName: 'bsonType',
+                specifiedAs: { bsonType: 'int' },
+                reason: 'type did not match',
+                consideredValue: 'tizenhrom',
+                consideredType: 'string'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+mongotest> db.Admins.insertOne({name:"Andras",age:"tizenhrom",email:"nagya@gmail.com"})
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('67bdda45e222bef69b4d7958'),
+  details: {
+    operatorName: '$jsonSchema',
+    schemaRulesNotSatisfied: [
+      {
+        operatorName: 'properties',
+        propertiesNotSatisfied: [
+          {
+            propertyName: 'age',
+            details: [
+              {
+                operatorName: 'bsonType',
+                specifiedAs: { bsonType: 'int' },
+                reason: 'type did not match',
+                consideredValue: 'tizenhrom',
+                consideredType: 'string'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+mongotest> db.Admins.insertOne({name:19,age:25,email:"nagya@gmail.com"})
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('67bdda58e222bef69b4d7959'),
+  details: {
+    operatorName: '$jsonSchema',
+    schemaRulesNotSatisfied: [
+      {
+        operatorName: 'properties',
+        propertiesNotSatisfied: [
+          {
+            propertyName: 'name',
+            details: [
+              {
+                operatorName: 'bsonType',
+                specifiedAs: { bsonType: 'string' },
+                reason: 'type did not match',
+                consideredValue: 19,
+                consideredType: 'int'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+mongotest> db.Admins.drop()
+\true
+mongotest> db.createCollection("Admins",{validator:{$jsonSchema:{bsonType:"object", required:["email"], properties:{name:{bsonType:"string"}, age:{bsonType:"int",minimum:21,description:"age must be a number and greter than 21"}}}}})
+{ ok: 1 }
+mongotest> db.Admins.insertOne({name:"sf",age:17,email:"nagya@gmail.com"})
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('67bddab3e222bef69b4d795a'),
+  details: {
+    operatorName: '$jsonSchema',
+    schemaRulesNotSatisfied: [
+      {
+        operatorName: 'properties',
+        propertiesNotSatisfied: [
+          {
+            propertyName: 'age',
+            description: 'age must be a number and greter than 21',
+            details: [
+              {
+                operatorName: 'minimum',
+                specifiedAs: { minimum: 21 },
+                reason: 'comparison failed',
+                consideredValue: 17
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+mongotest> db.users.createIndex({email:1},{unqiue:true})
+email_1
+mongotest> db.Admins.insertOne({name:"sf",age:17,email:"nagya@gmail.com"})
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('67bddb59e222bef69b4d795b'),
+  details: {
+    operatorName: '$jsonSchema',
+    schemaRulesNotSatisfied: [
+      {
+        operatorName: 'properties',
+        propertiesNotSatisfied: [
+          {
+            propertyName: 'age',
+            description: 'age must be a number and greter than 21',
+            details: [
+              {
+                operatorName: 'minimum',
+                specifiedAs: { minimum: 21 },
+                reason: 'comparison failed',
+                consideredValue: 17
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+mongotest> db.Admins.insertOne({name:"sf",age:23,email:"nagya@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bddb64e222bef69b4d795c')
+}
+mongotest> db.Admins.insertOne({name:"sf",age:23,email:"nagya@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bddb67e222bef69b4d795d')
+}
+mongotest> db.users.insertOne({name:"sf",age:23,email:"nagya@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bddb83e222bef69b4d795e')
+}
+mongotest> db.users.insertOne({name:"sf",age:23,email:"nagya@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bddb85e222bef69b4d795f')
+}
+mongotest> db.users.createIndex({email:1},{unique:true})
+MongoServerError[IndexKeySpecsConflict]: An existing index has the same name as the requested index. When index names are not specified, they are auto generated and can cause conflicts. Please refer to our documentation. Requested index: { v: 2, unique: true, key: { email: 1 }, name: "email_1" }, existing index: { v: 2, key: { email: 1 }, name: "email_1" }
+mongotest> db.users.drop()
+true
+mongotest> db.users.createIndex({email:1},{unique:true})
+email_1
+mongotest> db.users.insertOne({name:"sf",age:23,email:"nagya@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bddbcbe222bef69b4d7960')
+}
+mongotest> db.users.insertOne({name:"sf",age:23,email:"nagya@gmail.com"})
+MongoServerError: E11000 duplicate key error collection: mongotest.users index: email_1 dup key: { email: "nagya@gmail.com" }
+mongotest> db.users.drop()
+true
+mongotest> db.users.insertOne({_id:101,name:'John'})
+{ acknowledged: true, insertedId: 101 }
+mongotest> db.users.insertOne({_id:102,name:'Ron'})
+{ acknowledged: true, insertedId: 102 }
+mongotest> db.users.insertOne({_id:103,name:'Maria'})
+{ acknowledged: true, insertedId: 103 }
+mongotest> db.orders.insertOne({user_id:ObjectId(101),item:"mobile",price:"10230"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bddde2e222bef69b4d7963')
+}
+mongotest> db.orders.insertOne({user_id:ObjectId(102),item:"AC",price:"35000"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bdddfde222bef69b4d7965')
+}
+mongotest> db.orders.find()
+[
+  {
+    _id: ObjectId('67bddde2e222bef69b4d7963'),
+    user_id: ObjectId('00000065e222bef69b4d7962'),
+    item: 'mobile',
+    price: '10230'
+  },
+  {
+    _id: ObjectId('67bdddfde222bef69b4d7965'),
+    user_id: ObjectId('00000066e222bef69b4d7964'),
+    item: 'AC',
+    price: '35000'
+  }
+]
+mongotest> db.orders.aggregate([
+... {$lookup:{
+... from:"users",
+... localField:"user_id",
+... foreignField:"_id",
+... as:"user_orders_details"}}])
+[
+  {
+    _id: ObjectId('67bddde2e222bef69b4d7963'),
+    user_id: ObjectId('00000065e222bef69b4d7962'),
+    item: 'mobile',
+    price: '10230',
+    user_orders_details: []
+  },
+  {
+    _id: ObjectId('67bdddfde222bef69b4d7965'),
+    user_id: ObjectId('00000066e222bef69b4d7964'),
+    item: 'AC',
+    price: '35000',
+    user_orders_details: []
+  }
+]
+mongotest> db.orders.updateOne({item:"mobile"},$set:{user_id:101})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:40)
+
+> 1 | db.orders.updateOne({item:"mobile"},$set:{user_id:101})
+    |                                         ^
+  2 |
+
+mongotest> db.orders.updateOne({item:"mobile"},{$set:{user_id:101}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotest> db.orders.aggregate([ { $lookup: { from: "users", localField: "user_id", foreignField: "_id", as: "user_orders_details" } }])
+[
+  {
+    _id: ObjectId('67bddde2e222bef69b4d7963'),
+    user_id: 101,
+    item: 'mobile',
+    price: '10230',
+    user_orders_details: [ { _id: 101, name: 'John' } ]
+  },
+  {
+    _id: ObjectId('67bdddfde222bef69b4d7965'),
+    user_id: ObjectId('00000066e222bef69b4d7964'),
+    item: 'AC',
+    price: '35000',
+    user_orders_details: []
+  }
+]
+mongotest> db.orders.updateOne({item:"AC"},{$set:{user_id:102}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotest> db.orders.aggregate([ { $lookup: { from: "users", localField: "user_id", foreignField: "_id", as: "user_orders_details" } }])
+[
+  {
+    _id: ObjectId('67bddde2e222bef69b4d7963'),
+    user_id: 101,
+    item: 'mobile',
+    price: '10230',
+    user_orders_details: [ { _id: 101, name: 'John' } ]
+  },
+  {
+    _id: ObjectId('67bdddfde222bef69b4d7965'),
+    user_id: 102,
+    item: 'AC',
+    price: '35000',
+    user_orders_details: [ { _id: 102, name: 'Ron' } ]
+  }
+]
+mongotest> db.author.insertOne({_id:001,name:"Andras"})
+{ acknowledged: true, insertedId: 1 }
+mongotest> db.author.insertOne({_id:002,name:"Bella"})
+{ acknowledged: true, insertedId: 2 }
+mongotest> db.author.insertOne({_id:003,name:"Cecil"})
+{ acknowledged: true, insertedId: 3 }
+mongotest> db.author.insertOne({_id:004,name:"Dienes"})
+{ acknowledged: true, insertedId: 4 }
+mongotest> db.author.insertOne({_id:005,name:"Elemer"})
+{ acknowledged: true, insertedId: 5 }
+mongotest> db.books.insertOne({_id:1,title:"Book A",year:1990,author_id:001})
+{ acknowledged: true, insertedId: 1 }
+mongotest> db.books.insertOne({_id:1,title:"Book B",year:1991,author_id:002})
+MongoServerError: E11000 duplicate key error collection: mongotest.books index: _id_ dup key: { _id: 1 }
+mongotest> db.books.insertOne({_id:2,title:"Book B",year:1991,author_id:002})
+{ acknowledged: true, insertedId: 2 }
+mongotest> db.books.insertOne({_id:3,title:"Book C",year:1992,author_id:003})
+{ acknowledged: true, insertedId: 3 }
+mongotest> db.books.insertOne({_id:4,title:"Book D",year:1993,author_id:004})
+{ acknowledged: true, insertedId: 4 }
+mongotest> db.books.insertOne({_id:5,title:"Book E",year:1991,author_id:005})
+{ acknowledged: true, insertedId: 5 }
+mongotest> mongotest> mongotest> mongotest> mongotest>
+
+mongotest> db.orders.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as: "book details"}}])
+[
+  {
+    _id: ObjectId('67bddde2e222bef69b4d7963'),
+    user_id: 101,
+    item: 'mobile',
+    price: '10230',
+    'book details': []
+  },
+  {
+    _id: ObjectId('67bdddfde222bef69b4d7965'),
+    user_id: 102,
+    item: 'AC',
+    price: '35000',
+    'book details': []
+  }
+]
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as: "book details"}}])
+[
+  {
+    _id: 1,
+    title: 'Book A',
+    year: 1990,
+    author_id: 1,
+    'book details': []
+  },
+  {
+    _id: 2,
+    title: 'Book B',
+    year: 1991,
+    author_id: 2,
+    'book details': []
+  },
+  {
+    _id: 3,
+    title: 'Book C',
+    year: 1992,
+    author_id: 3,
+    'book details': []
+  },
+  {
+    _id: 4,
+    title: 'Book D',
+    year: 1993,
+    author_id: 4,
+    'book details': []
+  },
+  {
+    _id: 5,
+    title: 'Book E',
+    year: 1991,
+    author_id: 5,
+    'book details': []
+  }
+]
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:"Book details:"{from:"author"}}])
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:107)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:"Book details:"{from:"author"}}])
+    |                                                                                                            ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:"Book details:",{from:"author"}}])
+Uncaught:
+SyntaxError: Unexpected token (1:108)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:"Book details:",{from:"author"}}])
+    |                                                                                                             ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"Book details:"{from:"author"}}}])
+Uncaught:
+SyntaxError: Unexpected token (1:108)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"Book details:"{from:"author"}}}])
+    |                                                                                                             ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"Book details {from:"author"}"}}])
+Uncaught:
+SyntaxError: Unexpected token (1:114)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"Book details {from:"author"}"}}])
+    |                                                                                                                   ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"Book details {from:"authors"}"}}])
+Uncaught:
+SyntaxError: Unexpected token (1:114)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"Book details {from:"authors"}"}}])
+    |                                                                                                                   ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:[{"Book details", {from:"authors"]}}}])
+Uncaught:
+SyntaxError: Unexpected token (1:108)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:[{"Book details", {from:"authors"]}}}])
+    |                                                                                                             ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:[{"Book details" {from:"authors"]}}}])
+Uncaught:
+SyntaxError: Unexpected token (1:109)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:[{"Book details" {from:"authors"]}}}])
+    |                                                                                                              ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:[{"Book details"}, {from:"author"}]}}}])
+Uncaught:
+SyntaxError: Unexpected token (1:108)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:[{"Book details"}, {from:"author"}]}}}])
+    |                                                                                                             ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"book details:",{from:"author", foreignField:"name"}])
+Uncaught:
+SyntaxError: Unexpected token (1:108)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"book details:",{from:"author", foreignField:"name"}])
+    |                                                                                                             ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{from:"author", foreignField:"name"}])
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:128)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{from:"author", foreignField:"name"}])
+    |                                                                                                                                 ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{from:"author", foreignField:"name"}}}])
+MongoServerError[FailedToParse]: $lookup argument 'as' must be a string, found as: { from: "author", foreignField: "name" }: object
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:"details"{from:"author", foreignField:"name"}}}])
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:101)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:"details"{from:"author", foreignField:"name"}}}])
+    |                                                                                                      ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"details"{from:"author", foreignField:"name"}}}}])
+Uncaught:
+SyntaxError: Unexpected token (1:102)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"details"{from:"author", foreignField:"name"}}}}])
+    |                                                                                                       ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"details"{from:"author", foreignField:"name"}}}}])
+Uncaught:
+SyntaxError: Unexpected token (1:102)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"_id", foreignField:"author_id", as:{"details"{from:"author", foreignField:"name"}}}}])
+    |                                                                                                       ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"author_id", foreignField:"_id", as:{"details"{from:"author", foreignField:"name"}}}}])
+Uncaught:
+SyntaxError: Unexpected token (1:102)
+
+> 1 | db.books.aggregate([{$lookup:{from:"author", localField:"author_id", foreignField:"_id", as:{"details"{from:"author", foreignField:"name"}}}}])
+    |                                                                                                       ^
+  2 |
+
+mongotest> db.books.aggregate([{$lookup:{from:"author", localField:"author_id", foreignField:"_id", as:"details"}}])
+[
+  {
+    _id: 1,
+    title: 'Book A',
+    year: 1990,
+    author_id: 1,
+    details: [ { _id: 1, name: 'Andras' } ]
+  },
+  {
+    _id: 2,
+    title: 'Book B',
+    year: 1991,
+    author_id: 2,
+    details: [ { _id: 2, name: 'Bella' } ]
+  },
+  {
+    _id: 3,
+    title: 'Book C',
+    year: 1992,
+    author_id: 3,
+    details: [ { _id: 3, name: 'Cecil' } ]
+  },
+  {
+    _id: 4,
+    title: 'Book D',
+    year: 1993,
+    author_id: 4,
+    details: [ { _id: 4, name: 'Dienes' } ]
+  },
+  {
+    _id: 5,
+    title: 'Book E',
+    year: 1991,
+    author_id: 5,
+    details: [ { _id: 5, name: 'Elemer' } ]
+  }
+]
+mongotest> db.author.find()
+[
+  { _id: 1, name: 'Andras' },
+  { _id: 2, name: 'Bella' },
+  { _id: 3, name: 'Cecil' },
+  { _id: 4, name: 'Dienes' },
+  { _id: 5, name: 'Elemer' }
+]
+mongotest> db.books.find()
+[
+  { _id: 1, title: 'Book A', year: 1990, author_id: 1 },
+  { _id: 2, title: 'Book B', year: 1991, author_id: 2 },
+  { _id: 3, title: 'Book C', year: 1992, author_id: 3 },
+  { _id: 4, title: 'Book D', year: 1993, author_id: 4 },
+  { _id: 5, title: 'Book E', year: 1991, author_id: 5 }
+]
+mongotest> db.books.find({year:{$gt:1990,$lt:1993}})
+[
+  { _id: 2, title: 'Book B', year: 1991, author_id: 2 },
+  { _id: 3, title: 'Book C', year: 1992, author_id: 3 },
+  { _id: 5, title: 'Book E', year: 1991, author_id: 5 }
+]
+mongotest> db.books.find({year:{$gt:1990,$lt:1993}}).count()
+3
+mongotest> db.books.find({year:{$gt:1990,$lt:1993}}).c
+mongotest> db.books.find().sort({title:-1})
+[
+  { _id: 5, title: 'Book E', year: 1991, author_id: 5 },
+  { _id: 4, title: 'Book D', year: 1993, author_id: 4 },
+  { _id: 3, title: 'Book C', year: 1992, author_id: 3 },
+  { _id: 2, title: 'Book B', year: 1991, author_id: 2 },
+  { _id: 1, title: 'Book A', year: 1990, author_id: 1 }
+]
+mongotest> db.books.findOne().sort({title:-1})
+TypeError: db.books.findOne().sort is not a function
+mongotest> db.books.find().sort({year:-1}).limit(1)
+[ { _id: 4, title: 'Book D', year: 1993, author_id: 4 } ]
+mongotest> db.books.find().sort({year:-1}).limit(1).skip(1)
+[ { _id: 3, title: 'Book C', year: 1992, author_id: 3 } ]
+mongotest>
+topics covered :
+Performance tuning 
+	Indexing
+	Index types
+	TTL Indexes 
+	Eplain
+	its usage->explain:executions stats 
+	uses of index
+	unique index
+	single index
+	compount index
+Schema Design: 
+	embedding:
+	create embedded documents, 
+array of documents
+get element match on the fild of any object in array
+using elemMatch
+Constraints
+Scema validation
+require 
+data type
+mininum
+regex
+linking
+Aggregation intro  and $lookup
+capped Collections
+worked with size and max
+check weather collection is capped or not 
+how to change limit (we can't do directly)
+use of capped collections
+capped collections/ttl 
+difference between embedding vs reference 
+revise :
+array, insertone,many,find,sort,limit,skip,
+BSON datatypes
+$gt
+$lt
+$gte
+$lte
+$and
+$or
+$ne
+
+
+
+
+

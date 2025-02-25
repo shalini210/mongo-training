@@ -1,0 +1,1659 @@
+create db
+create collections
+drop collection
+show db 
+show collections
+
+insertOne
+insertMany
+findOne
+find
+find(condition)
+$or
+$in
+$nin
+updateOne
+updateMany
+deleteOne
+deleteMany
+projections
+sort 
+limit
+skip
+regex
+arrays(push pop pull addtoset)
+ond. If you have a field name that starts with a '$' symbol, consider using $getField or $setField.
+mongotraining> db.pizzas.find({{type:'cheese',size:'small'})
+Uncaught:
+SyntaxError: Unexpected token (1:16)
+
+> 1 | db.pizzas.find({{type:'cheese',size:'small'})
+    |                 ^
+  2 |
+
+mongotraining> db.pizzas.find({type:'cheese',size:'small'})
+
+mongotraining> db.pizzas.find({type:'cheese',size:'medium'})
+[ { _id: 1, type: 'cheese', size: 'medium', price: 15 } ]
+mongotraining> db.users.insertOne({name:'Raman',skills:['mongodb','mysql']})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bc60d58b0f0b86524d794c')
+}
+mongotraining> db.users.insertOne({name:'john',skills:['MI','IOT']})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bc60f18b0f0b86524d794d')
+}
+mongotraining> db.users.insertOne({name:'Bob',skills:['MI','IOT','mongodb']})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bc61048b0f0b86524d794e')
+}
+mongotraining> db.users.insertOne({name:'Bob',skills:['MI','mongodb','python']})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67bc61168b0f0b86524d794f')
+}
+mongotraining> db.users.find()
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ]
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ]
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ]
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ]
+  }
+]
+mongotraining> db.users.find({skills:'MI'})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ]
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ]
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ]
+  }
+]
+mongotraining> db.users.find({skills:{$nin:['MI']}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ]
+  }
+]
+mongotraining> db.users.find({skills:{$nin:["IOT"]}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ]
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ]
+  }
+]
+mongotraining> db.users.find({skills:{$nin:["IOT","mysql"]}})
+[
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ]
+  }
+]
+mongotraining> db.users.updateOne({name:"Bob"},{$set:{age:}})
+Uncaught:
+SyntaxError: Unexpected token (1:43)
+
+> 1 | db.users.updateOne({name:"Bob"},{$set:{age:}})
+    |                                            ^
+  2 |
+
+mongotraining> db.users.updateOne({name:"Bob"},{$set:{age:32}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotraining> db.users.find()
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ]
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ]
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ]
+  }
+]
+mongotraining> db.users.updateOne({name:"john"},{$set:{age:12}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotraining> db.users.find()
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ]
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ]
+  }
+]
+mongotraining> db.users.find({age:{$exits:true}})
+MongoServerError[BadValue]: unknown operator: $exits
+mongotraining> db.users.find({age:{$exists:true}})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  }
+]
+mongotraining> db.users.find({age:{$exists:false}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ]
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ]
+  }
+]
+mongotraining> db.users.updateMany({age:{$exists:false}},{age:15})
+MongoInvalidArgumentError: Update document requires atomic operators
+mongotraining> db.users.updateMany({age:{$exists:false}},{$set:{age:15}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+mongotraining> db.users.find()
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ],
+    age: 15
+  }
+]
+mongotraining> db.users.find().sort({age:1})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  }
+]
+mongotraining> db.users.find().sort({age:-1})
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ],
+    age: 12
+  }
+]
+mongotraining> db.users.find()
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ],
+    age: 15
+  }
+]
+mongotraining> db.users.find().limit(2)
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ],
+    age: 12
+  }
+]
+mongotraining> db.users.find({},{name:1,skills:1})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ]
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT' ]
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ]
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ]
+  }
+]
+mongotraining> db.users.find({},{name:1,skills:1,_id:0})
+[
+  { name: 'Raman', skills: [ 'mongodb', 'mysql' ] },
+  { name: 'john', skills: [ 'MI', 'IOT' ] },
+  { name: 'Bob', skills: [ 'MI', 'IOT', 'mongodb' ] },
+  { name: 'Bob', skills: [ 'MI', 'mongodb', 'python' ] }
+]
+mongotraining> db.users.find({},{name:1,_id:0})
+[
+  { name: 'Raman' },
+  { name: 'john' },
+  { name: 'Bob' },
+  { name: 'Bob' }
+]
+mongotraining> db.users.findOne()
+{
+  _id: ObjectId('67bc60d58b0f0b86524d794c'),
+  name: 'Raman',
+  skills: [ 'mongodb', 'mysql' ],
+  age: 15
+}
+mongotraining> db.users.updateOne({name:'john'},{$push:{skills:"python"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotraining> db.users.findOne()
+{
+  _id: ObjectId('67bc60d58b0f0b86524d794c'),
+  name: 'Raman',
+  skills: [ 'mongodb', 'mysql' ],
+  age: 15
+}
+mongotraining> db.users.find()
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ],
+    age: 15
+  }
+]
+mongotraining> db.users.updateOne({name:'Raman'},{$push:{skills:{$each:['VB',"c#"]}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotraining> db.users.find()
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ],
+    age: 15
+  }
+]
+mongotraining> db.users.updateOne({name:'Bob'},{$pull:{skills:"python"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+mongotraining> db.users.find()
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ],
+    age: 15
+  }
+]
+mongotraining> db.users.updateOne({name:'Bob'},{$pull : {skills:"python"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+mongotraining> db.users.updateOne({name:'Bob')
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:30)
+
+> 1 | db.users.updateOne({name:'Bob')
+    |                               ^
+  2 |
+
+mongotraining> db.users.updateOne({name:'Bob'})
+MongoInvalidArgumentError: Update document requires atomic operators
+mongotraining> db.users.find({name:'Bob'})
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb', 'python' ],
+    age: 15
+  }
+]
+mongotraining> db.users.updateMany({name:'Bob'},{$pull : {skills:"python"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotraining> db.users.find({name:'Bob'})
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'MI', 'IOT', 'mongodb' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'MI', 'mongodb' ],
+    age: 15
+  }
+]
+mongotraining> db.users.updateMany({name:'Bob'},{$pull : {skills:{$in:["MI","mongodb"]}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+mongotraining> db.users.find({name:'Bob'})
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [],
+    age: 15
+  }
+]
+mongotraining> db.users.updateMany({name:'Bob'},{$addToSet:{skills:"IOT"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotraining> db.users.find({name:'Bob'})
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  }
+]
+mongotraining> db.users.updateOne({name:'Bob'},{$puch:{skills:{$each:['VB',"C#","python","MERN"]}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:83)
+
+> 1 | db.users.updateOne({name:'Bob'},{$puch:{skills:{$each:['VB',"C#","python","MERN"]}})
+    |                                                                                    ^
+  2 |
+
+mongotraining> db.users.updateOne({name:'Bob'},{$push:{skills:{$each:['VB',"C#","python","MERN"]}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotraining> db.users.find({name:'Bob'})
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'IOT', 'VB', 'C#', 'python', 'MERN' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  }
+]
+mongotraining> db.users.updateOne({name:'Bob'},{$pop:{skills:-1}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotraining> db.users.find({name:'Bob'})
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python', 'MERN' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  }
+]
+mongotraining> db.users.updateOne({name:'Bob'},{$pop:{skills:1}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongotraining> db.users.find({name:'Bob'})
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  }
+]
+mongotraining> db.user.find()
+
+mongotraining> db.users.find()
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  }
+]
+mongotraining> db.users.insertMany([{name:"Rajesh",age:25,skills:["DB","React"]},{name:"jen",age:23,skills:['VB','C++']}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('67bc85c48b0f0b86524d7950'),
+    '1': ObjectId('67bc85c48b0f0b86524d7951')
+  }
+}
+mongotraining> db.users.find({name:{$regex:"^R"}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"^Ram"}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  }
+]
+mongotraining> db.users.find({name:{$regex:"^r"}})
+
+mongotraining> db.users.find({name:{$regex:"^j"}})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"^J"}})
+
+mongotraining> db.users.find({name:{$regex:"^J",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"a",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"e",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"^e",$options:"i"}})
+
+mongotraining> db.users.find({name:{$regex:"es",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"esh$",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"sh$",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"en$",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"n$",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"n$|^a",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"h$|^j",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"\\baje\\b",$options:"i"}})
+
+mongotraining> db.users.find({name:{$regex:"\\brajesh\\b",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find({age:{"25"}})
+Uncaught:
+SyntaxError: Unexpected token (1:24)
+
+> 1 | db.users.find({age:{"25"}})
+    |                         ^
+  2 |
+
+mongotraining> db.users.find({age:"25"})
+
+mongotraining> db.users.find({age:25})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find({name:{"Rajesh", "jane"})
+Uncaught:
+SyntaxError: Unexpected token (1:29)
+
+> 1 | db.users.find({name:{"Rajesh", "jane"})
+    |                              ^
+  2 |
+
+mongotraining> db.users.find({name:{$or:["Rajesh", "jane"]})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:44)
+
+> 1 | db.users.find({name:{$or:["Rajesh", "jane"]})
+    |                                             ^
+  2 |
+
+mongotraining> db.users.find({name:{$or:{["Rajesh", "jane"]}})
+Uncaught:
+SyntaxError: Unexpected token, expected "]" (1:35)
+
+> 1 | db.users.find({name:{$or:{["Rajesh", "jane"]}})
+    |                                    ^
+  2 |
+
+mongotraining> db.users.find({name:{$or:{["Rajesh", "jane"]}})
+Uncaught:
+SyntaxError: Unexpected token, expected "]" (1:35)
+
+> 1 | db.users.find({name:{$or:{["Rajesh", "jane"]}})
+    |                                    ^
+  2 |
+
+mongotraining> db.users.find({name:{$or:["Rajesh", "jane"]})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:44)
+
+> 1 | db.users.find({name:{$or:["Rajesh", "jane"]})
+    |                                             ^
+  2 |
+
+mongotraining> db.users.find({name:{$or:["Rajesh", "jane"]}})
+MongoServerError[BadValue]: unknown operator: $or
+mongotraining> db.users.find({name:{$in:["Rajesh", "jane"]}})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find({name:{$in:["Rajesh", "jen"]}})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({$or:[{name:"Rajesh"},{name: "jen"}]}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:51)
+
+> 1 | db.users.find({$or:[{name:"Rajesh"},{name: "jen"}]}})
+    |                                                    ^
+  2 |
+
+mongotraining> db.users.find({$or:[{name:"Rajesh"},{name: "jen"}]})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({$or:[{name:"Rajesh"},{name: "jen"}]})
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({age:{$in:[23,12]}})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({name:{$in:["Ron","john","jen"]}})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({name:{$nin:["Ron","john","jen"]}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find({or:[{name:'Bob'},{age:15}]})
+
+mongotraining> db.users.find({$or:[{name:'Bob'},{age:15}]})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  }
+]
+mongotraining> db.users.find({age:{$nin:[15,32]}})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({skills:{$in:["VB", "mongodb"]}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({skills:"MI"})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  }
+]
+mongotraining> db.users.find({skills:{$in:["VB"]{$nin:["MI"]}}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:33)
+
+> 1 | db.users.find({skills:{$in:["VB"]{$nin:["MI"]}}})
+    |                                  ^
+  2 |
+
+mongotraining> db.users.find({skills:{$in:["VB"], {$nin:["MI"]}}})
+Uncaught:
+SyntaxError: Unexpected token (1:35)
+
+> 1 | db.users.find({skills:{$in:["VB"], {$nin:["MI"]}}})
+    |                                    ^
+  2 |
+
+mongotraining> db.users.find({skills:{$nin:["MI"]}}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:36)
+
+> 1 | db.users.find({skills:{$nin:["MI"]}}})
+    |                                     ^
+  2 |
+
+mongotraining> db.users.find({skills:{$nin:["MI"]}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db,users.find({name:{regex:"^R"}})
+ReferenceError: users is not defined
+mongotraining> db.users.find({name:{regex:"^R"}})
+
+mongotraining> db.users.find({name:{regex:"^R",$options:"i"}})
+
+mongotraining> db.users.find({name:{regex:"^r",$options:"i"}})
+
+mongotraining> db.users.find({name:{$regex:"^r",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find({name:{$regex:"n$",$options:"i"}})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({age:{or:{skills:["mongodb"], {$in:[12]}}}})
+Uncaught:
+SyntaxError: Unexpected token (1:44)
+
+> 1 | db.users.find({age:{or:{skills:["mongodb"], {$in:[12]}}}})
+    |                                             ^
+  2 |
+
+mongotraining> db.users.find({age:{$or:{skills:["mongodb"], {$in:[12]}}}})
+Uncaught:
+SyntaxError: Unexpected token (1:45)
+
+> 1 | db.users.find({age:{$or:{skills:["mongodb"], {$in:[12]}}}})
+    |                                              ^
+  2 |
+
+mongotraining> db.users.find({$or:{skills:["mongodb"], {age:{$in:[12]}}}})
+Uncaught:
+SyntaxError: Unexpected token (1:40)
+
+> 1 | db.users.find({$or:{skills:["mongodb"], {age:{$in:[12]}}}})
+    |                                         ^
+  2 |
+
+mongotraining> db.users.find({}{$or:{skills:["mongodb"], {age:{$in:[12]}}}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:16)
+
+> 1 | db.users.find({}{$or:{skills:["mongodb"], {age:{$in:[12]}}}})
+    |                 ^
+  2 |
+
+mongotraining> db.users.find({}{$or:{skills:["mongodb"], {age:{$in:[12]}}}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:16)
+
+> 1 | db.users.find({}{$or:{skills:["mongodb"], {age:{$in:[12]}}}})
+    |                 ^
+  2 |
+
+mongotraining> db.users.find({$or:{age:12}, {skills:"mongodb"}})
+Uncaught:
+SyntaxError: Unexpected token (1:29)
+
+> 1 | db.users.find({$or:{age:12}, {skills:"mongodb"}})
+    |                              ^
+  2 |
+
+mongotraining> db.users.find({$or:{age:[12]}, {skills:["mongodb"]}})
+Uncaught:
+SyntaxError: Unexpected token (1:31)
+
+> 1 | db.users.find({$or:{age:[12]}, {skills:["mongodb"]}})
+    |                                ^
+  2 |
+
+mongotraining> db.users.find({$or:{age:[12], skills:["mongodb"]}})
+MongoServerError[BadValue]: $or argument must be an array
+mongotraining> db.users.find({$or:[{age:12}, {skills:"mongodb"}]})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  }
+]
+mongotraining> db.users.find({$or:[{age:12}, {$nin:{skills:"mongodb"}}]})
+MongoServerError[BadValue]: unknown top level operator: $nin. If you have a field name that starts with a '$' symbol, consider using $getField or $setField.
+mongotraining> db.users.find({$or:[{age:12}, {$nin:{skills:["mongodb"]}}]})
+MongoServerError[BadValue]: unknown top level operator: $nin. If you have a field name that starts with a '$' symbol, consider using $getField or $setField.
+mongotraining> db.users.find({$or:[{age:12}, {skills:{$nin:["mongodb"]}}]})
+[
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find()sort({age:-1}).limit(1)
+Uncaught:
+SyntaxError: Missing semicolon. (1:15)
+
+> 1 | db.users.find()sort({age:-1}).limit(1)
+    |                ^
+  2 |
+
+mongotraining> db.users.find().sort({age:-1}).limit(1)
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  }
+]
+mongotraining> db.users.find().sort({age:-1}).limit(1)
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  }
+]
+mongotraining> db.users.find().sort({age:-1}).limit(2)
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find().sort({age:-1}).limit(2).skip(1)
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find().sort({age:-1}).limit(2).skip(2)
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  },
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  }
+]
+mongotraining> db.users.find().sort({age:-1}).limit(1).skip(1)
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find().sort({age:-1}).limit(2)
+[
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  }
+]
+mongotraining> db.users.find().sort({age:-1}).limit(2).skip(1)
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find().sort({age:-1}).limit(2).skip(2)
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  },
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  }
+]
+mongotraining> db.users.find().sort({age:-1}).limit(1).skip(2)
+[
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find().sort({age:1}).limit(1).skip(1)
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  }
+]
+mongotraining> db.users.find({name:1,age:1,_id:-1,skills:-1})
+
+mongotraining> db.users.find(){name:1,age:1,_id:-1,skills:-1}
+Uncaught:
+SyntaxError: Missing semicolon. (1:15)
+
+> 1 | db.users.find(){name:1,age:1,_id:-1,skills:-1}
+    |                ^
+  2 |
+
+mongotraining> db.users.find().sort{name:1,age:1,_id:-1,skills:-1}
+Uncaught:
+SyntaxError: Missing semicolon. (1:20)
+
+> 1 | db.users.find().sort{name:1,age:1,_id:-1,skills:-1}
+    |                     ^
+  2 |
+
+mongotraining> db.users.find().sort,{name:1,age:1,_id:-1,skills:-1}
+{ name: 1, age: 1, _id: -1, skills: -1 }
+mongotraining> db.users.find({name:1},{age:1},{_id:-1},{skills:-1})
+
+mongotraining> db.users.find({name:1}, {age:1}, {_id:-1}, {skills:-1})
+
+mongotraining> db.users.find( {name:1, age:1, _id:-1, skills:-1})
+
+mongotraining> db.users.find({}, {name:1, age:1, _id:-1, skills:-1})
+[
+  {
+    _id: ObjectId('67bc60d58b0f0b86524d794c'),
+    name: 'Raman',
+    skills: [ 'mongodb', 'mysql', 'VB', 'c#' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc60f18b0f0b86524d794d'),
+    name: 'john',
+    skills: [ 'MI', 'IOT', 'python' ],
+    age: 12
+  },
+  {
+    _id: ObjectId('67bc61048b0f0b86524d794e'),
+    name: 'Bob',
+    skills: [ 'VB', 'C#', 'python' ],
+    age: 32
+  },
+  {
+    _id: ObjectId('67bc61168b0f0b86524d794f'),
+    name: 'Bob',
+    skills: [ 'IOT' ],
+    age: 15
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25,
+    skills: [ 'DB', 'React' ]
+  },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7951'),
+    name: 'jen',
+    age: 23,
+    skills: [ 'VB', 'C++' ]
+  }
+]
+mongotraining> db.users.find({}, {name:1, age:1, _id:0})
+[
+  { name: 'Raman', age: 15 },
+  { name: 'john', age: 12 },
+  { name: 'Bob', age: 32 },
+  { name: 'Bob', age: 15 },
+  { name: 'Rajesh', age: 25 },
+  { name: 'jen', age: 23 }
+]
+mongotraining> db.users.find({}, {name:1, age:1})
+[
+  { _id: ObjectId('67bc60d58b0f0b86524d794c'), name: 'Raman', age: 15 },
+  { _id: ObjectId('67bc60f18b0f0b86524d794d'), name: 'john', age: 12 },
+  { _id: ObjectId('67bc61048b0f0b86524d794e'), name: 'Bob', age: 32 },
+  { _id: ObjectId('67bc61168b0f0b86524d794f'), name: 'Bob', age: 15 },
+  {
+    _id: ObjectId('67bc85c48b0f0b86524d7950'),
+    name: 'Rajesh',
+    age: 25
+  },
+  { _id: ObjectId('67bc85c48b0f0b86524d7951'), name: 'jen', age: 23 }
+]
+mongotraining> db.users.find({}, {name:1, age:1,_id:0})
+[
+  { name: 'Raman', age: 15 },
+  { name: 'john', age: 12 },
+  { name: 'Bob', age: 32 },
+  { name: 'Bob', age: 15 },
+  { name: 'Rajesh', age: 25 },
+  { name: 'jen', age: 23 }
+]
+mongotraining> db.users.find({}, {name:1, age:1,_id:0}).limit(2)
+[ { name: 'Raman', age: 15 }, { name: 'john', age: 12 } ]
+mongotraining> db.users.find({}, {name:1, age:1,_id:0}).limit(2).sort({age:-1})
+[ { name: 'Bob', age: 32 }, { name: 'Rajesh', age: 25 } ]
+mongotraining> db.users.find({}, {name:1, age:1,_id:0}).sort({age:-1}).limit(2)
+[ { name: 'Bob', age: 32 }, { name: 'Rajesh', age: 25 } ]
+mongotraining> save
+ReferenceError: save is not definedned
+mongotraining> db.users.find({}, {name:1, age:1,_id:0}).sort({age:-1}).limit(2)
+
+
+
+
+
+
+
+
+
+
+
